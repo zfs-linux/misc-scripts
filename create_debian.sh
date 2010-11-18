@@ -5,7 +5,7 @@ git clone git://github.com/zfs-linux/lzfs.git
 git clone git://github.com/zfs-linux/spl.git
 
 # copy the ubuntu zfsload script
-cp lzfs/etc/init.d/zfsload-ubuntu lzfs/etc/init.d/zfsload
+cp lzfs/scripts/zfsload-ubuntu lzfs/etc/init.d/zfsload
 for name in spl zfs lzfs
 do
 echo $name
