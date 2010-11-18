@@ -1,8 +1,9 @@
 #!/bin/bash
 
-git clone https://harshada@github.com/zfs-linux/lzfs.git
-git clone https://harshada@github.com/zfs-linux/zfs.git
-git clone https://harshada@github.com/zfs-linux/spl.git
+git clone git://github.com/zfs-linux/zfs.git
+git clone git://github.com/zfs-linux/lzfs.git
+git clone git://github.com/zfs-linux/spl.git
+
 # copy the ubuntu zfsload script
 cp lzfs/etc/init.d/zfsload-ubuntu lzfs/etc/init.d/zfsload
 for name in spl zfs lzfs
