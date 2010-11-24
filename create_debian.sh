@@ -43,6 +43,8 @@ for name in spl zfs lzfs
    sudo rm -rf /usr/src/spl-$splversion/$uname/module/splat
 done
 rm -rf *.gz *.build *.changes *.dsc
+sudo rm /etc/init.d/zfsload
+sudo rm /var/lib/dpkg/info/lzfs.*
 sudo dpkg -r spl
 sudo dpkg -r zfs
 sudo dpkg -r lzfs
