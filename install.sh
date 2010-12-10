@@ -17,10 +17,10 @@ HOME_DIR=`pwd`
 KERNEL_VERSION=`uname -r`
 CONFIG_PARAM=''
  
-# COLORS
-txtred='\e[0;31m' # Red
-txtgrn='\e[0;32m' # Green
-txtrst='\e[0m'    # Text Reset
+# message colors
+txtred='\e[0;31m' # err
+txtgrn='\e[0;32m' # echo
+txtrst='\e[0m'    # reset
 
 
 function capture_spin {
@@ -312,4 +312,7 @@ function main {
     sleep 2
 }
 
+if ( test $# > 0 ) ; then 
+    $HOME_DIR=$1
+fi      
 main
