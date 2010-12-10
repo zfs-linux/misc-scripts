@@ -335,6 +335,7 @@ function main {
 # if args not are provided then get pwd as HOME_DIR
 if ( test $# > 0 ) ; then 
     $HOME_DIR=$1
-    if cd $HOME_DIR ; then echo ; else Message "${txtred}can not cd to source dir. ${txtrst}"
-fi      
+    if cd $HOME_DIR ; then echo "" ; else Message "${txtred}can not cd to source dir. ${txtrst}"; fi      
+fi
+
 main
