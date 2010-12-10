@@ -1,0 +1,12 @@
+set -x
+modprobe -r lzfs
+modprobe -r zfs
+modprobe -r splat
+modprobe -r spl
+modprobe -r zunicode
+modprobe -r zcommon
+modprobe -r zpios
+modprobe -r zavl
+modprobe -r znvpair
+set +x
+lsmod|grep zfs

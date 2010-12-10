@@ -1,0 +1,15 @@
+set -x
+cd spl
+./configure --enable-debug
+make
+cd ..
+TDIR=`pwd`
+cd zfs
+./configure --with-spl=${TDIR}/spl --enable-debug
+make
+cd ..
+cd lzfs
+./configure --with-spl=${TDIR}/spl --with-zfs={TDIR}/zfs --enable-debug
+make
+cd ..
+
