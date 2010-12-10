@@ -1,0 +1,67 @@
+ZFS Linux installer script
+========================================================
+
+script name   : install.sh
+tree location : ZFS-MOME/misc-scripts/install.sh 
+
+ZFS installer script is used to build and install
+ZFS on linux for supported linux distro/kernel version.
+
+It checks for package/tools/utilities dependencies for
+installation. If not available install them first and
+build zfs for installation.
+
+* Installer script is supposed to be executed from zfs 
+   SOURCE DIR. If script is not executed from source dir 
+   then source dir path can be provided at command line.
+ 
+* Installer script must be executed with superuser
+   previllages. 
+
+* If installer fails to install some of package 
+  dependencies then try to install them manually.
+ 
+* Without resolving package dependencies installer 
+  won't be able to proceed with further installation
+  process.
+
+
+SOURCE DIR STRUCTURE :  
+              ZFS-HOME../              
+                        |-- zfs          
+                        |   |-- scripts  
+                        |   |-- patches  
+                        |   |-- module   
+                        |   |-- man      
+                        |   |-- lib      
+                        |   |-- include  
+                        |   |-- etc      
+                        |   |-- doc      
+                        |   |-- debian   
+                        |   |-- config   
+                        |   `-- cmd      
+                        |-- spl          
+                        |   |-- scripts  
+                        |   |-- patches  
+                        |   |-- module   
+                        |   |-- lib      
+                        |   |-- include  
+                        |   |-- debian   
+                        |   |-- config   
+                        |   `-- cmd      
+                        |-- misc-scripts 
+                        |   `-- mitra    
+                        `-- lzfs         
+                            |-- scripts  
+                            |-- module   
+                            |-- include  
+                            |-- etc      
+                            |-- debian   
+                            `-- config   
+
+SUPPORTED DISTRO/KERNEL-VERSIONS:
+                          -- 2.6.3XXX
+                          -- 2.6.3XXX
+                          -- 2.6.3XXX
+
+Good luck ****

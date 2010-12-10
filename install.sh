@@ -13,8 +13,17 @@
 # limitations under the License.                                             #
 #--------------------------------------------------------------------------- #
 
+
+# zfs source dir
 HOME_DIR=`pwd`
+
+# pre-execution dir
+PREV_DIR=`pwd`
+
+# zfs to be compiled with
 KERNEL_VERSION=`uname -r`
+
+# spl zfs lzfs configuration params
 CONFIG_PARAM=''
  
 # message colors
@@ -32,9 +41,8 @@ function stdin_stdout_to_log {
 	exec &> $LOG
 }
 
+# show spinnig bar during installation
 function start_spin {
-
-
 	(while true
 	do
         echo -en '/\010' ; sleep .1
@@ -45,10 +53,11 @@ function start_spin {
 	SPIN_PID=$!
 }
 
+# stop spinnig bar 
 function stop_spin {
 	kill $SPIN_PID
-	kill $SPIN_PID
-	kill $SPIN_PID
+    # cd pre-execution dir
+    cd $PREV_DIR
 	echo ' ' 
 }
 
@@ -278,8 +287,10 @@ function make_install {
 }
 
 function main { 
+    # check for superuser permissions
     if (test $UID -ne 0) then
         Message "${txtred}Error : Superuser previllages required${txtrst}"
+        cd $PREV_DIR
         exit 1
     fi
     capture_spin
@@ -289,14 +300,18 @@ function main {
     echo -e "${txtgrn}HOME_DIR : $HOME_DIR ${txtrst}"
     echo -e "${txtgrn}KERNEK_VERSION : $KERNEL_VERSION ${txtrst}"
 
+    # check for linux distro / version and resolve dependencies accordingly
     resolve_dependencies 
 
+    # configure and make spl
     CONFIG_PARAM="--with-linux=/lib/modules/$KERNEL_VERSION/build" 
     make_configure spl
  
+    # configure and make zfs
     CONFIG_PARAM=$CONFIG_PARAM" --with-spl=$HOME_DIR/spl/"
     make_configure zfs
  
+    # configure and make lzfs
     CONFIG_PARAM=$CONFIG_PARAM" --with-zfs=$HOME_DIR/zfs/"
     make_configure lzfs
  
@@ -306,13 +321,16 @@ function main {
     make_install zfs
     make_install lzfs
 
+    # add startup routine ( init scripts )
     startups 
     stop_spin
     Message "${txtgrn}zfs installation done ${txtrst}"
     sleep 2
 }
 
+# if args not are provided then get pwd as HOME_DIR
 if ( test $# > 0 ) ; then 
     $HOME_DIR=$1
+    if cd $HOME_DIR ; then echo ; else Message "${txtred}can not cd to source dir. ${txtrst}"
 fi      
 main
