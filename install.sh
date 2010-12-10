@@ -189,8 +189,12 @@ function resolve_dependencies {
         'Ubuntu')
              install_Ubuntu_dependencies 
          ;;
+        'Red')
+             # assume red hat dependencies same as fedora
+             install_Fedora_dependencies 
+         ;;
        *)
-        Message "failure. unexpected distro found. Resolve dependencies manually."
+        Message  "${txtred}failure. unexpected distro found. Resolve dependencies manually.${txtrst}"  
          ;;
      esac 
  
