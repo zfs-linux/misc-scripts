@@ -1,0 +1,13 @@
+set -x
+modprobe zlib_deflate
+modprobe zlib_inflate
+insmod ./spl/module/spl/spl.ko
+insmod ./spl/module/splat/splat.ko
+insmod ./zfs/module/avl/zavl.ko
+insmod ./zfs/module/nvpair/znvpair.ko
+insmod ./zfs/module/unicode/zunicode.ko
+insmod ./zfs/module/zcommon/zcommon.ko
+insmod ./zfs/module/zfs/zfs.ko
+insmod ./lzfs/module/lzfs.ko
+set +x
+lsmod |grep zfs

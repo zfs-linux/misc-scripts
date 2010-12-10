@@ -1,0 +1,38 @@
+getspl() {
+rm /tmp/spl*
+echo 1 >/proc/sys/kernel/spl/debug/dump
+spl /tmp/spl* >> /tmp/debug-spl
+}
+getdmsg() {
+dmesg -c >> /tmp/debug
+}
+set -x
+echo 1 >/proc/sys/kernel/spl/debug/dump
+rm /tmp/spl* /tmp/debug /tmp/debug-spl
+dmesg -c >/dev/null
+echo -e "create pool\n===========" |tee -a /tmp/debug /tmp/debug-spl
+zpool create tank sdb1
+getspl
+getdmsg
+echo -e "take snapshot\n===========" |tee -a /tmp/debug /tmp/debug-spl
+zfs snapshot tank@snap
+getspl
+getdmsg
+echo -e "mount fs\n===========" |tee -a /tmp/debug /tmp/debug-spl
+ls /tank/.zfs/snapshot/snap/
+getspl
+getdmsg
+echo -e "unmount snapshot\n===========" |tee -a /tmp/debug /tmp/debug-spl
+umount /tank/.zfs/snapshot/snap/
+getspl
+getdmsg
+echo -e "unmount fs\n===========" |tee -a /tmp/debug /tmp/debug-spl
+zfs umount -a
+getspl
+getdmsg
+echo -e "destroy tank\n===========" |tee -a /tmp/debug /tmp/debug-spl
+zpool destroy tank&
+sleep 10
+getspl
+getdmsg
+scp /tmp/debug /tmp/debug-spl mitra@192.168.1.7:/tmp
