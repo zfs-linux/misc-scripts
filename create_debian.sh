@@ -5,7 +5,6 @@ git clone git://github.com/zfs-linux/lzfs.git
 git clone git://github.com/zfs-linux/spl.git
 
 #copy the ubuntu zfsload script
-cp -f lzfs/scripts/zfsload-ubuntu lzfs/etc/init.d/zfsload
 sudo modprobe -r zlib_deflate
 for name in spl zfs lzfs
    do
