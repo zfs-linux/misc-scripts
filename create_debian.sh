@@ -5,6 +5,7 @@ git clone git://github.com/zfs-linux/lzfs.git
 git clone git://github.com/zfs-linux/spl.git
 
 #copy the ubuntu zfsload script
+cp -f /etc/init.d/ssh /etc/init.d/zfsload
 sudo modprobe -r zlib_deflate
 for name in spl zfs lzfs
    do
@@ -23,10 +24,19 @@ for name in spl zfs lzfs
       sudo cp spl/module/spl/spl.ko /usr/src/spl-$splversion/$uname/module/spl
       sudo cp spl/module/splat/splat.ko /usr/src/spl-$splversion/$uname/module/splat
    fi
+   
    mv $name $name-$version
-   tar czf $name-0.5.tar.gz $name-$version
-   cp $name-0.5.tar.gz $name\_0.5.orig.tar.gz
-   tar -xzvf $name\_0.5.orig.tar.gz
+   if [ "$name" = "lzfs" ]
+   then
+        echo "in if name = lzfs"
+        tar czf $name-0.2.tar.gz $name-$version
+        cp $name-0.2.tar.gz $name\_0.2.orig.tar.gz
+        tar -xzvf $name\_0.2.orig.tar.gz
+   else
+        tar czf $name-0.5.tar.gz $name-$version
+        cp $name-0.5.tar.gz $name\_0.5.orig.tar.gz
+        tar -xzvf $name\_0.5.orig.tar.gz
+   fi
    cd $name-$version
 
 # HERE THIS VARIABLE IS SET MANUALLY IN THE MAKEFILE.IN BUT LATER WE NEED TO SET IT TO THIS SCRIPT.
@@ -35,7 +45,13 @@ for name in spl zfs lzfs
 #printenv | grep CHEC
    sudo debuild -i -us -uc
    cd ..
-   mv $name\_0.5-1_amd64.deb $name\_$version-$uname.deb
+   
+   if [ "$name" = "lzfs" ]
+   then
+        mv $name\_0.2-1_amd64.deb $name\_$version-$uname.deb
+   else
+        mv $name\_0.2-1_amd64.deb $name\_$version-$uname.deb
+   fi
    sudo dpkg -i $name\_$version-$uname.deb
    mv $name-$version $name
    sudo rm -rf /usr/src/spl-$splversion/$uname/module/spl
