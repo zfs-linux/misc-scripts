@@ -11,9 +11,9 @@ do case $opt in
 done
 
 #cloning repo
-#git clone git@github.com:zfs-linux/spl.git
-#git clone git@github.com:zfs-linux/zfs.git
-#git clone git@github.com:zfs-linux/lzfs.git
+git clone git@github.com:zfs-linux/spl.git
+git clone git@github.com:zfs-linux/zfs.git
+git clone git@github.com:zfs-linux/lzfs.git
 
 mkdir -p /tmp/logzfs/
 touch "/tmp/logzfs/logfile`date +%F`"
