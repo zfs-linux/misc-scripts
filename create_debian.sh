@@ -29,9 +29,9 @@ for name in spl zfs lzfs
    if [ "$name" = "lzfs" ]
    then
         echo "in if name = lzfs"
-        tar czf $name-0.2.tar.gz $name-$version
-        cp $name-0.2.tar.gz $name\_0.2.orig.tar.gz
-        tar -xzvf $name\_0.2.orig.tar.gz
+        tar czf $name-1.0.tar.gz $name-$version
+        cp $name-1.0.tar.gz $name\_1.0.orig.tar.gz
+        tar -xzvf $name\_1.0.orig.tar.gz
    else
         tar czf $name-0.5.tar.gz $name-$version
         cp $name-0.5.tar.gz $name\_0.5.orig.tar.gz
@@ -48,9 +48,12 @@ for name in spl zfs lzfs
    
    if [ "$name" = "lzfs" ]
    then
-        mv $name\_0.2-1_amd64.deb $name\_$version-$uname.deb
+        mv $name\_1.0_amd64.deb $name\_$version-$uname.deb
+   elif [ "$name" = "spl" ]
+   then
+	mv $name\_0.5-2_amd64.deb $name\_$version-$uname.deb
    else
-        mv $name\_0.2-1_amd64.deb $name\_$version-$uname.deb
+        mv $name\_0.5-1_amd64.deb $name\_$version-$uname.deb
    fi
    sudo dpkg -i $name\_$version-$uname.deb
    mv $name-$version $name
