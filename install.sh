@@ -163,7 +163,7 @@ function install_Fedora_pkg {
     fi 
 }
 function install_Ubuntu_dependencies {
-     DEP_LIST="gawk zlib1g-dev uuid-dev"
+     DEP_LIST="gawk zlib1g-dev uuid-dev  linux-headers-`uname -r`"
      for pkg in $DEP_LIST
      do
           install_Ubuntu_pkg $pkg
