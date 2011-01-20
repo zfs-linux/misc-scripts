@@ -292,17 +292,29 @@ function make_install {
 
 function main { 
     # check for superuser permissions
-    if (test $UID -ne 0) then
-        Message "${txtred}Error : Superuser previllages required${txtrst}"
-        cd $PREV_DIR
-        exit 1
-    fi
     capture_spin
     start_spin
  
     echo -e "${txtgrn}starting zfs installation : ${txtrst}"
     echo -e "${txtgrn}HOME_DIR : $HOME_DIR ${txtrst}"
     echo -e "${txtgrn}KERNEK_VERSION : $KERNEL_VERSION ${txtrst}"
+           
+    #check for super user permission
+    [ $UID -ne 0 ] &&  Message "${txtred}Error : Superuser previllages required${txtrst}"  &&  exits
+    echo  -e "${txtgrn}super user previllages available... ${txtrst}";
+
+    # if args are not provided then get pwd as HOME_DIR
+    [ $# -gt 0 ] && HOME_DIR=$1
+
+    cd $HOME_DIR || ( Message "${txtred}can not cd to repo home ${txtrst}" && exits )
+    echo -e "${txtgrn} cd to repo home done ... ${txtrst}";
+
+    # pull source repositories if not available
+    pullRepos
+
+    # check if zfs module allready loaded
+    lsmod | grep zfs ; 
+    [ $? -eq 0 ]  &&  Message "${txtred}remove zfs module first to proceed ${txtrst}" &&  exits 
 
     # check for linux distro / version and resolve dependencies accordingly
     resolve_dependencies 
@@ -332,10 +344,21 @@ function main {
     sleep 2
 }
 
-# if args not are provided then get pwd as HOME_DIR
-if ( test $# > 0 ) ; then 
-    $HOME_DIR=$1
-    if cd $HOME_DIR ; then echo "" ; else Message "${txtred}can not cd to source dir. ${txtrst}"; fi      
-fi
+# pull source repositories if not available
+function pullRepos {
+       # check spl dir
+       [ -a ./spl  ] || ( echo  "pulling zfs spl repo.." ; git clone https://github.com/zfs-linux/spl.git || ( echo  "${txtred} spl pull failed ... ${txtrst}"; exits ))
+       echo -e "${txtgrn} spl available ... ${txtrst}";
 
-main
+       # check zfs dir
+       [ -a ./zfs  ] || ( echo  "pulling zfs spl repo.." ; git clone https://github.com/zfs-linux/zfs.git || ( echo  "${txtred} zfs pull failed ... ${txtrst}"; exits ))
+       echo -e "${txtgrn} zfs available ... ${txtrst}";
+
+       # check spl dir
+       [ -a ./lzfs  ] || ( echo  "pulling lzfs spl repo.." ; git clone https://github.com/zfs-linux/lzfs.git || ( echo  "${txtred} lzfs pull failed ... ${txtrst}"; exits ))
+       echo -e  "${txtgrn} lzfs available ... ${txtrst}";
+}
+
+
+
+main $*
