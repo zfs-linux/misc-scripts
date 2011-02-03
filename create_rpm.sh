@@ -4,12 +4,6 @@ splconfigopts=""
 path=`pwd`
 kernel_ver=`uname -r`
 
-while getopts s: opt
-do case $opt in
-        "s")    splconfigopts=$OPTARG;;
-        esac
-done
-
 #cloning repo
 git clone git@github.com:zfs-linux/spl.git
 git clone git@github.com:zfs-linux/zfs.git
@@ -23,7 +17,7 @@ splver="spl"
 zfsver="zfs"
 lzfsver="lzfs"
 
-for name in spl zfs lzfs
+for name in spl  
 do
 	cd $name 2> /dev/null
 	if test $? -ne 0
@@ -66,7 +60,7 @@ do
 	if [ "$name" = "spl" ]
 	then
 		presize=`ls -s $logpath | cut -d' ' -f1`
-		./configure $splconfigopts --with-linux=/usr/src/kernels/$kernel_ver/  2>> $logpath
+		./configure --disable-debug-kmem --with-linux=/usr/src/kernels/$kernel_ver/  2>> $logpath
 		postsize=`ls -s $logpath | cut -d' ' -f1`
 		
 		if test $presize -ne $postsize
