@@ -17,7 +17,7 @@ splver="spl"
 zfsver="zfs"
 lzfsver="lzfs"
 
-for name in spl  
+for name in spl zfs lzfs
 do
 	cd $name 2> /dev/null
 	if test $? -ne 0
@@ -26,17 +26,10 @@ do
 	        exit -1
 	fi
 
-	git checkout GA-01 2> /dev/null
+	git checkout GA-01.v02 2> /dev/null
 	if test $? -ne 0
         then
                 echo "Error : checkout GA-01 failed "               
-                exit -1
-        fi
-
-	git pull
-	if test $? -ne 0
-        then
-                echo "Error : failed to pull"               
                 exit -1
         fi
 
