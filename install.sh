@@ -204,7 +204,7 @@ function startups {
        for OS in `cat /etc/issue` ; do echo -e "${txtgrn}Operating system: " $OS `uname -r` ${txtrst} ; break ; done
        case $OS in
         'Fedora')
-             if cp $HOME_DIR/lzfs/etc/init.d/zfsload /etc/init.d/zfsload ; then
+             if cp $HOME_DIR/lzfs/etc/init.d/initd.redhat /etc/init.d/zfsload ; then
                 echo -e "${txtgrn}${txtrst}"
              else
                 echo -e "${txtred}can not copy init file ${txtrst}"  
@@ -216,7 +216,7 @@ function startups {
              fi
          ;;
         'Ubuntu')
-             if cp $HOME_DIR/lzfs/scripts/zfsload-ubuntu /etc/init.d/zfsload ; then
+             if cp $HOME_DIR/lzfs/etc/init.d/initd.debian /etc/init.d/zfsload ; then
                 echo -e "${txtgrn}${txtrst}"
              else
                 echo -e "${txtred}can not copy init file ${txtrst}"  
