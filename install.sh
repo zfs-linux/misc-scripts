@@ -337,6 +337,9 @@ function main {
     make_install zfs
     make_install lzfs
 
+    # ldpath
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+    ldconfig
     # add startup routine ( init scripts )
     startups 
     stop_spin
